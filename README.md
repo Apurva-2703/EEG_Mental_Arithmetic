@@ -5,8 +5,8 @@ This is a practice repository where I take open-source EEG data from the paper "
 **Dependencies**
 > Cython programming language
 > pyEDF library
-
-
+> Numpy
+> os
 
 ------------------------------------------------------------------
 CITATIONS:
