@@ -9,7 +9,7 @@ with “_1” postfix -- the recording of the background EEG of a subject (befor
 In this experiment all subjects are divided into two groups: 
 Group “G” (24 subjects) performing good quality count (Mean number of operations per 4 minutes = 21, SD = 7.4 ), 
 Group ”B” (12 subjects) performing bad quality count (Mean number of operations per 4 minutes = 7, SD = 3.6).  
-In the file “subjects_info.xlsx” the “Count quality” column provides info which subjects correspond to which group (0 - Group ”B”, 1 - Group “G”). Additionally, file “subjects_info.xlsx” provides basic information about each subject (gender, age, job, date of recording).
+In the file “subjects_info.csv” the “Count quality” column provides info which subjects correspond to which group (0 - Group ”B”, 1 - Group “G”). Additionally, file “subjects_info.xlsx” provides basic information about each subject (gender, age, job, date of recording).
 
 Both EDF and EDF+ formats are free and can be viewed using free software such as:
 Polyman (for MS-Windows only; for details, please follow the link)
