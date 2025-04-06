@@ -65,3 +65,6 @@ ax.set_yticks(np.arange(len(channel_names)))
 ax.set_yticklabels(channel_names)
 # Show the plot
 plt.show()
+
+
+#NEXT UP: (1) Remove EKG signal from the visualization and reduce numbers of channels being shown. (2) Make correlation matrix and MNE scalp visualization. (3) move on to between group analysis
