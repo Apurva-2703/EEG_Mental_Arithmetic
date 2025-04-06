@@ -7,6 +7,8 @@ This is a practice repository where I take open-source EEG data from the paper "
 * pyEDF library
 * Numpy
 * os
+* scipy
+* matplotlib
 
 ------------------------------------------------------------------
 CITATIONS:

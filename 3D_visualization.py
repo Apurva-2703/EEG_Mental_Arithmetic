@@ -1,19 +1,18 @@
 #Here I use the scripts from the course "Signal processing for Neuroscience" by Ildar Rakhmatulin
 #I have adapted the scripts to better suit this dataset.
 
-# Import os, numpy and EDF library
+# Import dependencies
 import os
 import pyedflib
 import numpy as np
 import pandas as pd
+from scipy.signal import butter, filtfilt
+import matplotlib.pyplot as plt
 
-# Establish file path to raw data
+# Establish file path for SUBJECT 1, BASELINE data
 edf_folder_path = "eeg-during-mental-arithmetic-tasks-1.0.0"
 edf_path = os.path.join(edf_folder_path, "Subject00_1.edf") #Subject 1, baseline.
 f = pyedflib.EdfReader(edf_path) #Open subject's file in python
-
-# Import dependencies
-from scipy.signal import butter, filtfilt
 
 #Bandpass filter script adapted to this dataset
 def bandpass_filter(data, fs, lowcut=1.0, highcut=40.0, order=5):
@@ -42,4 +41,27 @@ bandpass_signals = {}
 for idx,label in enumerate(channel_names):
     data  = f.readSignal(idx)
     filtered_signal = bandpass_filter(data, fs=500, lowcut=1.0, highcut=40.0)
-    bandpass_signals[label] = filtered_signal
+    bandpass_signals[label] = filtered_signal.astype(np.float32)
+
+
+#Visualizing filtered data in a 3D time-domain graph
+channel_names = f.getSignalLabels()
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+x = np.arange(len(bandpass_signals["EEG C3"])) / 500  # Time in seconds
+y = np.arange(len(channel_names))
+
+for i, channel in enumerate(channel_names):
+    ax.plot(x, np.full_like(x, i), bandpass_signals[channel], label=channel)
+
+# Add labels and title
+ax.set_xlabel('Time')
+ax.set_ylabel('Channels')
+ax.set_zlabel('Signal Amplitude (µV)')
+ax.set_title('3D Visualization of Filtered EEG Signals')
+
+# Set y-ticks as channel names for easier reading
+ax.set_yticks(np.arange(len(channel_names)))
+ax.set_yticklabels(channel_names)
+# Show the plot
+plt.show()
