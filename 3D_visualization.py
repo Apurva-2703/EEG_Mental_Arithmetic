@@ -39,10 +39,14 @@ def bandpass_filter(data, fs, lowcut=1.0, highcut=40.0, order=5):
 channel_names = f.getSignalLabels()
 bandpass_signals = {}
 for idx,label in enumerate(channel_names):
+    if label == 'ECG ECG':
+        continue
     data  = f.readSignal(idx)
     filtered_signal = bandpass_filter(data, fs=500, lowcut=1.0, highcut=40.0)
     bandpass_signals[label] = filtered_signal.astype(np.float32)
 
+# Close file to avoid access or memory issues
+f.close()
 
 #Visualizing filtered data in a 3D time-domain graph
 channel_names = f.getSignalLabels()
@@ -52,6 +56,8 @@ x = np.arange(len(bandpass_signals["EEG C3"])) / 500  # Time in seconds
 y = np.arange(len(channel_names))
 
 for i, channel in enumerate(channel_names):
+    if channel == 'ECG ECG':
+        continue
     ax.plot(x, np.full_like(x, i), bandpass_signals[channel], label=channel)
 
 # Add labels and title
@@ -66,5 +72,4 @@ ax.set_yticklabels(channel_names)
 # Show the plot
 plt.show()
 
-
-#NEXT UP: (1) Remove EKG signal from the visualization and reduce numbers of channels being shown. (2) Make correlation matrix and MNE scalp visualization. (3) move on to between group analysis
+#NEXT UP: (1) Reduce numbers of channels being shown. (2) Make correlation matrix and MNE scalp visualization. (3) move on to between group analysis
