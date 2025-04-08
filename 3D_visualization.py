@@ -76,4 +76,4 @@ ax.set_yticklabels(selected_channels)
 # Show the plot
 plt.show()
 
-#NEXT UP: (1) Reduce numbers of channels being shown. (2) Make correlation matrix and MNE scalp visualization. (3) move on to between group analysis
+#NEXT UP: (2) Make correlation matrix and MNE scalp visualization. (3) move on to between group analysis
