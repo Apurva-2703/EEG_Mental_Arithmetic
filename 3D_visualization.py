@@ -35,10 +35,13 @@ def bandpass_filter(data, fs, lowcut=1.0, highcut=40.0, order=5):
     b, a = butter(order, [low, high], btype='band')
     return filtfilt(b, a, data)
 
-#Looping bandpass filter script across all channels.
+#Looping bandpass filter script across "x"-number of channels.
 channel_names = f.getSignalLabels()
 bandpass_signals = {}
-for idx,label in enumerate(channel_names):
+number_of_channels_in_graph = 5 #Change this to however many channels you want to graph
+selected_channels = channel_names[:number_of_channels_in_graph]
+
+for idx,label in enumerate(selected_channels):
     if label == 'ECG ECG':
         continue
     data  = f.readSignal(idx)
@@ -49,13 +52,14 @@ for idx,label in enumerate(channel_names):
 f.close()
 
 #Visualizing filtered data in a 3D time-domain graph
-channel_names = f.getSignalLabels()
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-x = np.arange(len(bandpass_signals["EEG C3"])) / 500  # Time in seconds
-y = np.arange(len(channel_names))
 
-for i, channel in enumerate(channel_names):
+sample_channel = list(bandpass_signals.keys())[0]
+x = np.arange(len(bandpass_signals[sample_channel_channel])) / 500 # Time in seconds
+y = np.arange(len(selected_channels))
+
+for i, channel in enumerate(selected_channels):
     if channel == 'ECG ECG':
         continue
     ax.plot(x, np.full_like(x, i), bandpass_signals[channel], label=channel)
@@ -67,8 +71,8 @@ ax.set_zlabel('Signal Amplitude (µV)')
 ax.set_title('3D Visualization of Filtered EEG Signals')
 
 # Set y-ticks as channel names for easier reading
-ax.set_yticks(np.arange(len(channel_names)))
-ax.set_yticklabels(channel_names)
+ax.set_yticks(np.arange(len(selected_channels)))
+ax.set_yticklabels(selected_channels)
 # Show the plot
 plt.show()
 
