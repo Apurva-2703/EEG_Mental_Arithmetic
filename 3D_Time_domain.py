@@ -6,6 +6,7 @@ import os
 import pyedflib
 import numpy as np
 import pandas as pd
+from utilities import bandpass_filter
 from scipy.signal import butter, filtfilt
 import matplotlib.pyplot as plt
 
@@ -13,27 +14,6 @@ import matplotlib.pyplot as plt
 edf_folder_path = "eeg-during-mental-arithmetic-tasks-1.0.0"
 edf_path = os.path.join(edf_folder_path, "Subject00_1.edf") #Subject 1, baseline. (Change first 2 digits for subject number and last digit to 1 or 2 for baseline or test)
 f = pyedflib.EdfReader(edf_path) #Open subject's file in python
-
-#Bandpass filter script adapted to this dataset 
-def bandpass_filter(data, fs, lowcut, highcut, order):
-    """
-    Apply a Butterworth bandpass filter to the data.
-
-    Args:
-        data (array-like): The signal to filter.
-        fs (float): Sampling rate (Hz).
-        lowcut (float): Low cutoff frequency (Hz).
-        highcut (float): High cutoff frequency (Hz).
-        order (int): Filter order.
-
-    Returns:
-        numpy array: The filtered signal.
-    """
-    nyq = 0.5 * fs  # Nyquist frequency
-    low = lowcut / nyq
-    high = highcut / nyq
-    b, a = butter(order, [low, high], btype='band')
-    return filtfilt(b, a, data)
 
 #Looping bandpass filter script across "x"-number of channels.
 channel_names = f.getSignalLabels()

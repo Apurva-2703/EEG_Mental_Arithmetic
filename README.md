@@ -9,6 +9,7 @@ This is a practice repository where I take open-source EEG data from the paper "
 * os
 * scipy
 * matplotlib
+* MNE
 
 ------------------------------------------------------------------
 CITATIONS:
