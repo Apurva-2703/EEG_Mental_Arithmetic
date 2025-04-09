@@ -19,6 +19,5 @@ for edf_file in edf_files:
     f.close()
 
 #Next up:
-# Create a 3D time-domain graph that illustrates all channels across time for baseline conditions of each participant. (Then do the same for Test)
 # Create a  correlation matrix to visualize data. Try your hand at MNE. 
 # Perform a between group analysis by using MNE library and plotting different top. map for each condition. 
