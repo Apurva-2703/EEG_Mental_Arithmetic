@@ -11,11 +11,11 @@ import matplotlib.pyplot as plt
 
 # Establish file path for SUBJECT 1, BASELINE data
 edf_folder_path = "eeg-during-mental-arithmetic-tasks-1.0.0"
-edf_path = os.path.join(edf_folder_path, "Subject00_1.edf") #Subject 1, baseline.
+edf_path = os.path.join(edf_folder_path, "Subject00_1.edf") #Subject 1, baseline. (Change first 2 digits for subject number and last digit to 1 or 2 for baseline or test)
 f = pyedflib.EdfReader(edf_path) #Open subject's file in python
 
-#Bandpass filter script adapted to this dataset
-def bandpass_filter(data, fs, lowcut=1.0, highcut=40.0, order=5):
+#Bandpass filter script adapted to this dataset 
+def bandpass_filter(data, fs, lowcut, highcut, order):
     """
     Apply a Butterworth bandpass filter to the data.
 
@@ -38,30 +38,40 @@ def bandpass_filter(data, fs, lowcut=1.0, highcut=40.0, order=5):
 #Looping bandpass filter script across "x"-number of channels.
 channel_names = f.getSignalLabels()
 bandpass_signals = {}
-number_of_channels_in_graph = 5 #Change this to however many channels you want to graph
-selected_channels = channel_names[:number_of_channels_in_graph]
+# Specify the EEG channels you want to visualize (check f.getSignalLabels() to see available names)
+selected_channels = ['EEG Cz', 'EEG Pz', 'EEG Fz']  # <- Change this list to your needs
 
-for idx,label in enumerate(selected_channels):
+for label in selected_channels:
     if label == 'ECG ECG':
         continue
-    data  = f.readSignal(idx)
-    filtered_signal = bandpass_filter(data, fs=500, lowcut=1.0, highcut=40.0)
-    bandpass_signals[label] = filtered_signal.astype(np.float32)
-
+    try:
+        idx = channel_names.index(label)
+        data = f.readSignal(idx)
+        filtered_signal = bandpass_filter(data, fs=500, lowcut=8.0, highcut=12.0, order = 5)
+        bandpass_signals[label] = filtered_signal.astype(np.float32)
+    except ValueError:
+        print(f"Channel '{label}' not found in this EDF file.")
 # Close file to avoid access or memory issues
-f.close()
+f._close()
+
+#The following code block ensures that the data filtering actually took place by comparing the raw and filtered data for a given channel.
+plt.figure()
+plt.plot(data[:1000], label='Raw')
+plt.plot(filtered_signal[:1000], label='Filtered')
+plt.title(f"Check Filtering: {label}")
+plt.legend()
+plt.grid(True)
+plt.show()
 
 #Visualizing filtered data in a 3D time-domain graph
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 
 sample_channel = list(bandpass_signals.keys())[0]
-x = np.arange(len(bandpass_signals[sample_channel_channel])) / 500 # Time in seconds
+x = np.arange(len(bandpass_signals[sample_channel])) / 500 # Time in seconds
 y = np.arange(len(selected_channels))
 
-for i, channel in enumerate(selected_channels):
-    if channel == 'ECG ECG':
-        continue
+for i, channel in enumerate(bandpass_signals.keys()):
     ax.plot(x, np.full_like(x, i), bandpass_signals[channel], label=channel)
 
 # Add labels and title
@@ -75,5 +85,3 @@ ax.set_yticks(np.arange(len(selected_channels)))
 ax.set_yticklabels(selected_channels)
 # Show the plot
 plt.show()
-
-#NEXT UP: (2) Make correlation matrix and MNE scalp visualization. (3) move on to between group analysis
