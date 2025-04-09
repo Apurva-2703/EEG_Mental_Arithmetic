@@ -41,6 +41,7 @@ bandpass_signals = {}
 # Specify the EEG channels you want to visualize (check f.getSignalLabels() to see available names)
 selected_channels = ['EEG Cz', 'EEG Pz', 'EEG Fz']  # <- Change this list to your needs
 
+#Filtering the signals from selected channels
 for label in selected_channels:
     if label == 'ECG ECG':
         continue
