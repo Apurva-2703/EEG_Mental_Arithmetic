@@ -15,13 +15,12 @@ edf_folder_path = "eeg-during-mental-arithmetic-tasks-1.0.0"
 edf_path = os.path.join(edf_folder_path, "Subject00_1.edf") #Subject 1, baseline. (Change first 2 digits for subject number and last digit to 1 or 2 for baseline or test)
 f = pyedflib.EdfReader(edf_path) #Open subject's file in python
 
-#Looping bandpass filter script across "x"-number of channels.
+#Select EEG channels for visualization (check f.getSignalLabels() to see available channels)
 channel_names = f.getSignalLabels()
 bandpass_signals = {}
-# Specify the EEG channels you want to visualize (check f.getSignalLabels() to see available names)
 selected_channels = ['EEG Cz', 'EEG Pz', 'EEG Fz']  # <- Change this list to your needs
 
-#Filtering the signals from selected channels
+#Bandpass filter selected channels
 for label in selected_channels:
     if label == 'ECG ECG':
         continue
@@ -35,7 +34,7 @@ for label in selected_channels:
 # Close file to avoid access or memory issues
 f._close()
 
-#The following code block ensures that the data filtering actually took place by comparing the raw and filtered data for a given channel.
+#Sanity check: Ensure filtered and raw data differ by plotting a 2D visual.
 plt.figure()
 plt.plot(data[:1000], label='Raw')
 plt.plot(filtered_signal[:1000], label='Filtered')

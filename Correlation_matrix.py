@@ -18,11 +18,11 @@ channels = ['EEG Fz', 'EEG F3', 'EEG F4', 'EEG F7', 'EEG F8', 'EEG Cz', 'EEG C3'
 #Perform a bandpass filter on the selected data (ALPHA BAND for example: 8-12Hz)
 signals = load_filtered_channels(edf_file, channels, fs=500, lowcut=8.0, highcut=12.0, order=5)
 
-# Step 4: Make correlation matrix
+#Make correlation matrix
 data_matrix = np.array([signals[ch] for ch in signals])  # shape: (channels, time)
 correlation_matrix = np.corrcoef(data_matrix)
 
-# Step 5: Visualize correlation matrix
+#Visualize correlation matrix
 plt.figure(figsize=(8, 6))
 sns.heatmap(correlation_matrix, xticklabels=signals.keys(), yticklabels=signals.keys(), annot=True, cmap='coolwarm')
 plt.title("EEG Channel Correlation Matrix")
