@@ -35,6 +35,8 @@ This project was built in Python 3. You can install all dependencies with:
 pip install numpy scipy matplotlib pandas mne pyedflib
 ```
 
+---
+
 ## 🚀 How to Run
 
 Download the EEG dataset from PhysioNet.
@@ -51,6 +53,8 @@ Correlation: Channel-to-channel connectivity map.
 
 (Optional) Modify the selected_channels list to focus on specific electrode locations.
 
+---
+
 ## 📚 Citations
 Original Dataset:
 Zyma I, Tukaev S, Seleznov I, Kiyono K, Popov A, Chernykh M, Shpenkov O.
@@ -66,6 +70,8 @@ PhysioNet Reference:
 Goldberger AL, Amaral LAN, Glass L, et al.
 PhysioBank, PhysioToolkit, and PhysioNet: Components of a new research resource for complex physiologic signals.
 Circulation. 2000;101(23):e215–e220.
+
+---
 
 ## 🧠 Learning Notes
 This project was created while independently completing:
