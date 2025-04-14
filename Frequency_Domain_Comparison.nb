@@ -1,0 +1,11 @@
+#Import dependencies
+
+import os
+import pyedflib
+import numpy as np
+import pandas as pd
+
+edf_folder_path = "eeg-during-mental-arithmetic-tasks-1.0.0"
+edf_files = [f for f in os.listdir(edf_folder_path) if f.endswith(".edf")]
+
+#Do not apply a band pass filter - we dont want to attenuate any frequencies
